@@ -1,0 +1,14 @@
+Flask>=3.0.0
+Werkzeug>=3.0.0
+opencv-python>=4.10.0
+mediapipe>=0.10.14
+numpy>=1.26.4
+scikit-learn>=1.5.1
+Pillow>=10.4.0
+
+Jinja2>=3.1.4
+
+python-dotenv>=1.0.1
+
+gunicorn>=22.0.0
+Flask-Cors>=5.0.0

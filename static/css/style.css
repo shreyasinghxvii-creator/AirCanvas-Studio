@@ -1,0 +1,102 @@
+/* Website colors */
+:root {
+    --bg-surface: #030712;
+    --text-main: #f8fafc;
+}
+
+/* Reset the page */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+/* Apply box sizing */
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+/* Background color */
+.bg-surface {
+    background-color: var(--bg-surface);
+}
+
+/* Text color */
+.text-main {
+    color: var(--text-main);
+}
+
+/* Navigation bar */
+.nav-glass {
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Main button */
+.btn-primary {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.35);
+}
+
+/* Background glow */
+.hero-glow {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    background: rgba(79, 70, 229, 0.15);
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+}
+
+/* Card design */
+.card-solid {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    transition: transform 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.card-solid:hover {
+    transform: translateY(-2px);
+    border-color: rgba(99, 102, 241, 0.4);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Demo area */
+#interactive-demo {
+    background: #020617;
+    cursor: crosshair;
+}
+
+/* Demo overlay */
+#demo-overlay {
+    transition: opacity 0.3s ease;
+}
+
+#interactive-demo:hover #demo-overlay {
+    opacity: 0.15;
+}

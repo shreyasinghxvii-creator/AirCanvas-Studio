@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block title %}Air Canvas Studio — Precision Air Drawing{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-4 relative select-none">
+
+    <!-- Top Touchless Toolbar -->
+    <div class="glass-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4 bg-slate-900/90 p-4 rounded-xl border border-slate-800">
+        
+        <!-- 1. Drawing Tools -->
+        <div class="flex flex-col gap-1.5 justify-center border-b md:border-b-0 md:border-r border-slate-800 pb-3 md:pb-0 pr-0 md:pr-4">
+            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Drawing Tools</span>
+            <div class="flex items-center gap-2 flex-wrap">
+                <button id="tool-brush" class="air-target tool-btn active flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-semibold shadow border border-indigo-400 transition-colors">
+                    ✏️ Brush
+                </button>
+                <button id="tool-eraser" class="air-target tool-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs font-semibold border border-slate-700 transition-colors">
+                    🧹 Eraser
+                </button>
+                <button id="btn-clear" class="air-target flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-900/60 hover:bg-red-800 text-red-200 text-xs font-semibold border border-red-700/50 transition-colors">
+                    🗑️ Clear
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. Brush Size -->
+        <div class="flex flex-col gap-1.5 justify-center border-b md:border-b-0 lg:border-r border-slate-800 pb-3 md:pb-0 pr-0 lg:pr-4">
+            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Brush Size</span>
+            <div class="flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700 w-fit">
+                <button id="btn-size-down" class="air-target px-2.5 py-0.5 rounded bg-slate-700 text-white font-bold hover:bg-slate-600 text-xs transition-colors">-</button>
+                <span id="brushSizeVal" class="text-xs font-bold text-slate-200 w-12 text-center font-mono">14px</span>
+                <button id="btn-size-up" class="air-target px-2.5 py-0.5 rounded bg-slate-700 text-white font-bold hover:bg-slate-600 text-xs transition-colors">+</button>
+            </div>
+        </div>
+
+        <!-- 3. Manual Colours -->
+        <div class="flex flex-col gap-1.5 justify-center border-b lg:border-b-0 lg:border-r border-slate-800 pb-3 lg:pb-0 pr-0 lg:pr-4">
+            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Manual Colours</span>
+            <div class="flex items-center gap-1.5 flex-wrap">
+                <div id="air-color-palette" class="flex items-center gap-1.5 flex-wrap">
+                    <button class="air-target color-swatch w-6 h-6 rounded-full border-2 border-white shadow bg-red-500 active-swatch" data-color="#ef4444"></button>
+                    <button class="air-target color-swatch w-6 h-6 rounded-full border-2 border-transparent hover:scale-110 bg-orange-500 transition-transform" data-color="#f97316"></button>
+                    <button class="air-target color-swatch w-6 h-6 rounded-full border-2 border-transparent hover:scale-110 bg-yellow-400 transition-transform" data-color="#facc15"></button>
+                    <button class="air-target color-swatch w-6 h-6 rounded-full border-2 border-transparent hover:scale-110 bg-green-500 transition-transform" data-color="#22c55e"></button>
+                    <button class="air-target color-swatch w-6 h-6 rounded-full border-2 border-transparent hover:scale-110 bg-cyan-400 transition-transform" data-color="#22d3ee"></button>
+                    <button class="air-target color-swatch w-6 h-6 rounded-full border-2 border-transparent hover:scale-110 bg-blue-500 transition-transform" data-color="#3b82f6"></button>
+                    <button class="air-target color-swatch w-6 h-6 rounded-full border-2 border-transparent hover:scale-110 bg-purple-500 transition-transform" data-color="#a855f7"></button>
+                    <button class="air-target color-swatch w-6 h-6 rounded-full border-2 border-transparent hover:scale-110 bg-pink-500 transition-transform" data-color="#ec4899"></button>
+                    <button class="air-target color-swatch w-6 h-6 rounded-full border-2 border-transparent hover:scale-110 bg-amber-800 transition-transform" data-color="#78350f"></button>
+                    <button class="air-target color-swatch w-6 h-6 rounded-full border-2 border-transparent hover:scale-110 bg-black transition-transform" data-color="#000000"></button>
+                </div>
+                <input type="color" id="customColorPicker" value="#ef4444" class="air-target w-7 h-7 rounded cursor-pointer bg-transparent border-0 ml-1" title="Choose Custom Color">
+            </div>
+        </div>
+
+        <!-- 4. Actions -->
+        <div class="flex flex-col gap-1.5 justify-center">
+            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Actions</span>
+            <div class="flex items-center gap-2">
+                <button id="camera-btn" class="air-target btn-primary text-xs font-semibold px-3 py-1.5 rounded-full shadow-md transition-colors">
+                    📷 Start Camera
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Main Viewport Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+        
+        <!-- Webcam & Status Side Panel -->
+        <div class="lg:col-span-1 flex flex-col gap-4">
+            
+            <!-- Camera Stream Card -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col items-center shadow-lg">
+                <div class="flex items-center justify-between w-full mb-3">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Camera Stream
+                    </span>
+                    <span id="airDwellTimer" class="px-2 py-0.5 rounded bg-indigo-950/80 text-indigo-300 font-mono text-[10px] border border-indigo-800/50">DWELL: OFF</span>
+                </div>
+                
+                <div class="relative w-full aspect-video bg-slate-950 rounded-xl overflow-hidden border border-slate-800 flex items-center justify-center shadow-inner">
+                    <video id="webcam" class="w-full h-full object-cover" autoplay playsinline muted></video>
+                    <span id="cam-placeholder" class="text-xs text-slate-500 absolute font-medium">Camera Turned Off</span>
+                </div>
+
+                <!-- Clean Status Display -->
+                <div class="w-full mt-3 flex flex-col gap-2">
+                    <div id="gestureStatus" class="text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800/90 text-slate-300 border border-slate-700/80 w-full text-center shadow-sm">
+                        Gesture: Waiting for Camera...
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Suggested Colours Section -->
+            <div id="ai-palette-section" class="bg-gradient-to-br from-slate-900/90 via-indigo-950/40 to-slate-900/90 border border-indigo-500/30 rounded-2xl p-4 shadow-xl hidden">
+                <div class="flex items-center gap-2 mb-3 border-b border-indigo-500/20 pb-2">
+                    <span class="text-base">🪄</span>
+                    <h4 class="text-xs font-bold text-indigo-300 uppercase tracking-wider">AI Suggested Colours</h4>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- K-Means Palette -->
+                    <div>
+                        <p class="text-[11px] font-medium text-slate-400 mb-2">Template Palette (K-Means)</p>
+                        <div id="ai-swatches-container" class="flex items-center gap-2 flex-wrap min-h-[36px]"></div>
+                    </div>
+
+                    <!-- KNN Recommendations -->
+                    <div>
+                        <!-- Title inserted naturally or supplied via workspace.js -->
+                        <div id="knn-swatches-container" class="flex items-center gap-2 flex-wrap min-h-[36px]"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Canvas Container -->
+        <div class="lg:col-span-3 flex justify-center">
+            <div id="canvas-container" class="relative w-full max-w-[800px] aspect-[4/3] bg-white border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+                <!-- Single Unified Paint Canvas -->
+                <canvas id="paint-canvas" width="800" height="600" class="w-full h-full cursor-crosshair block"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Selection Bar -->
+    <div class="glass-container mt-4 bg-slate-900/90 p-4 rounded-xl border border-slate-800">
+        <div class="flex flex-wrap justify-between items-center gap-2 mb-3">
+            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                🎨 Air Gallery — Point & Hold Finger to Switch Template
+            </span>
+            <label class="cursor-pointer bg-slate-800 hover:bg-slate-700 text-indigo-300 hover:text-indigo-200 text-xs px-3 py-1.5 rounded-lg border border-slate-700 transition-colors flex items-center gap-1.5 font-medium">
+                <span>➕ Upload Picture</span>
+                <input type="file" id="imageUploader" accept="image/*" class="hidden">
+            </label>
+        </div>
+        <div class="template-gallery flex items-center gap-3 overflow-x-auto pb-2" id="pill-gallery">
+            <button class="air-target template-pill active px-3.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold border border-slate-700 hover:border-slate-500 transition-all shrink-0" data-src="car.png">🚗 Car</button>
+            <button class="air-target template-pill px-3.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold border border-slate-700 hover:border-slate-500 transition-all shrink-0" data-src="Star.png">⭐ Star</button>
+            <button class="air-target template-pill px-3.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold border border-slate-700 hover:border-slate-500 transition-all shrink-0" data-src="butterfly.png">🦋 Butterfly</button>
+            <button class="air-target template-pill px-3.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold border border-slate-700 hover:border-slate-500 transition-all shrink-0" data-src="duck.png">🦆 Duck</button>
+            <button class="air-target template-pill px-3.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold border border-slate-700 hover:border-slate-500 transition-all shrink-0" data-src="fish.png">🐟 Fish</button>
+            <button class="air-target template-pill px-3.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold border border-slate-700 hover:border-slate-500 transition-all shrink-0" data-src="flower.png">🌸 Flower</button>
+            <button class="air-target template-pill px-3.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold border border-slate-700 hover:border-slate-500 transition-all shrink-0" data-src="heart.png">❤️ Heart</button>
+            <button class="air-target template-pill px-3.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold border border-slate-700 hover:border-slate-500 transition-all shrink-0" data-src="icecream.png">🍦 Ice Cream</button>
+            <button class="air-target template-pill px-3.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold border border-slate-700 hover:border-slate-500 transition-all shrink-0" data-src="Panda.png">🐼 Panda</button>
+            <button class="air-target template-pill px-3.5 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold border border-slate-700 hover:border-slate-500 transition-all shrink-0" data-src="Pumpkin.png">🎃 Pumpkin</button>
+        </div>
+    </div>
+
+    <!-- Screen Air Cursor Overlay -->
+    <div id="airCursor" style="position: fixed; width: 24px; height: 24px; border-radius: 50%; border: 3px solid #38bdf8; background: rgba(56, 189, 248, 0.4); pointer-events: none; display: none; transform: translate(-50%, -50%); z-index: 9999; transition: border-color 0.1s;">
+        <div id="airCursorProgress" style="width: 100%; height: 100%; border-radius: 50%; background: rgba(99, 102, 241, 0.6); transform: scale(0); transition: transform 0.08s linear;"></div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+
+<script>
+    const ASSET_PATH = "{{ url_for('static', filename='templates/') }}";
+</script>
+<script src="{{ url_for('static', filename='js/workspace.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,45 @@
+air_coloring_book/
+│
+├── app.py                         # Application Entry Point & Blueprint Registrar
+├── config.py                      # Global Configuration & Environment Settings
+├── requirements.txt               # Dependencies Setup
+│
+├── assets/                        # Static Template Originals
+│   └── templates/                 # Preset Line Art (butterfly.png, car.png, etc.)
+├── saved_art/                     # User Saved Masterpieces Directory
+│
+├── ai/                            # Pure AI Engine (UNTOUCHED Core Modules)
+│   ├── __init__.py                # Package Initialization
+│   ├── hand_tracker.py            # Hand tracking algorithms
+│   ├── smart_fill.py              # Contour extraction & flood-fill operations
+│   ├── kmeans_palette.py          # K-Means color extractor
+│   └── knn_recommender.py         # KNN color recommendation model
+│
+├── services/                      # Service Orchestration Layer
+│   ├── __init__.py
+│   ├── hand_tracking_service.py   # Web wrapper around MediaPipe hand tracking
+│   ├── coloring_service.py        # Web wrapper around Smart Fill algorithms
+│   ├── recommendation_service.py  # Web wrapper around K-Means & KNN models
+│   └── image_service.py           # Base64 encoding/decoding & file IO management
+│
+├── routes/                        # Flask Blueprints (HTTP & JSON API Routes)
+│   ├── __init__.py
+│   ├── home.py                    # Landing page route handler
+│   ├── gallery.py                 # Artwork showcase route handler
+│   ├── workspace.py               # Interactive studio route handler
+│   └── api.py                     # AJAX & REST endpoints for client-side JS
+│
+├── templates/                     # Modular Jinja2 Web Views
+│   ├── base.html                  # Master layout wrapper
+│   ├── index.html                 # Landing page template
+│   ├── gallery.html               # Gallery view template
+│   └── workspace.html             # Studio workspace canvas interface
+│
+└── static/                        # Frontend Static Assets
+    ├── css/
+    │   └── style.css              # Custom styling & Studio Minimalist theme
+    ├── js/
+    │   ├── theme.js               # Dark/Light mode theme engine
+    │   ├── gallery.js             # Interactive gallery manager
+    │   └── workspace.js           # Web camera, canvas renderer & API sync
+    └── images/                    # UI icons and static web resources

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AirCanvas — Draw in the Air{% endblock %}</title>
+    
+    <!-- Tailwind CSS Engine with Custom Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              surface: '#090d16',
+              main: '#f8fafc',
+            }
+          }
+        }
+      }
+    </script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}?v=2.0">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-[#090d16] text-slate-100 antialiased min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+    
+    <!-- Navigation (Glassmorphic Dark) -->
+    <nav class="nav-glass fixed top-0 left-0 right-0 z-50 px-6 py-4 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Logo -->
+            <a href="{{ url_for('home.index') if 'home.index' in flex_routes else url_for('index') if 'index' in flex_routes else '/' }}" class="flex items-center gap-2 text-xl font-bold tracking-tight text-white">
+                <div class="w-8 h-8 rounded-lg bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                    <i data-lucide="edit-3" class="w-4 h-4"></i>
+                </div>
+                <span class="bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">AirCanvas</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <!-- Navigation Links -->
+<div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+    <a href="{{ url_for('home.index') if 'home.index' in flex_routes else '/' }}#features" class="hover:text-indigo-400 transition-colors">Features</a>
+    <a href="{{ url_for('home.index') if 'home.index' in flex_routes else '/' }}#how-it-works" class="hover:text-indigo-400 transition-colors">How It Works</a>
+</div>
+
+            <!-- Single Primary CTA -->
+            <a href="{{ url_for('workspace.index') if 'workspace.index' in flex_routes else url_for('workspace') if 'workspace' in flex_routes else '/workspace' }}" class="btn-primary text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all">
+                Launch Canvas
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Clean Product Footer -->
+    <footer class="border-t border-slate-800/80 bg-slate-950 py-10 text-slate-400 text-sm mt-12">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2 font-semibold text-white">
+                <i data-lucide="edit-3" class="w-4 h-4 text-indigo-400"></i>
+                <span>AirCanvas</span>
+            </div>
+            <p class="text-xs text-slate-500">© 2026 AirCanvas Studio. Powered by Computer Vision.</p>
+            <div class="flex gap-6 text-xs text-slate-400">
+                <a href="#features" class="hover:text-white transition-colors">Features</a>
+                <a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a>
+                <a href="{{ url_for('workspace.index') if 'workspace.index' in flex_routes else url_for('workspace') if 'workspace' in flex_routes else '/workspace' }}" class="hover:text-white transition-colors">Workspace</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
